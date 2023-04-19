@@ -1,0 +1,84 @@
+{
+    "name": "tokens",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "init.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "issue-token",
+            "tx": {
+                "from": "0x3dcb037a418bbc2a17390452aecf4e58b6e90a25188d36a909f18fb8a55b765f",
+                "to": "sc:game-minter",
+                "function": "issueToken",
+                "value": "50000000000000000",
+                "arguments": [
+                    "str:Iron",
+					"str:IRON"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "200,000"
+            }
+        },
+        {
+            "step": "setState",
+            "accounts": {
+                "sc:game-minter": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:IRON-123456": {
+                            "lastNonce": "0",
+                            "roles": [
+                                "ESDTRoleLocalMint",
+                                "ESDTRoleLocalBurn"
+                            ]
+                        }
+                    },
+                    "storage": {
+                        "str:signer": "0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
+                        "str:materialTokenId|nested:str:Iron": "str:IRON-123456"
+                    },
+                    "code": "file:../output/game-minter.wasm",
+                    "owner": "0x3dcb037a418bbc2a17390452aecf4e58b6e90a25188d36a909f18fb8a55b765f"
+                }
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "check-token",
+            "tx": {
+                "to": "sc:game-minter",
+                "function": "getMaterialTokenId",
+                "arguments": [
+                    "str:Iron"
+                ]
+            },
+            "expect": {
+                "out": ["str:IRON-123456"],
+                "status": ""
+            }
+        }
+	]
+}

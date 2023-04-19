@@ -1,0 +1,78 @@
+{
+    "name": "claim",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "tokens.scen.json"
+        },
+        {
+            "step": "scCall",
+            "txId": "claim-tokens",
+            "tx": {
+                "from": "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
+                "to": "sc:game-minter",
+                "function": "claimTokens",
+                "value": "0",
+                "arguments": [
+                    "2",
+                    "1",
+					"1",
+                    "str:Iron",
+					"20",
+					"0x5767a7d777f1a2b421bf9d19193c90051ad130d7fd577efabdd8c01d7f6ce4a3e753e63d26a09a8e55203d78bb86f832a318d3eef86ac5e0fa6bb9df692ec40f"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1": {
+                    "nonce": "*",
+                    "balance": "*",
+                    "esdt": {
+						"str:IRON-123456": "20"
+					}
+                },
+                "+": ""
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "claim-tokens",
+            "tx": {
+                "from": "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
+                "to": "sc:game-minter",
+                "function": "claimTokens",
+                "value": "0",
+                "arguments": [
+                    "2",
+                    "1",
+					"1",
+                    "str:Iron",
+					"20",
+					"0x5767a7d777f1a2b421bf9d19193c90051ad130d7fd577efabdd8c01d7f6ce4a3e753e63d26a09a8e55203d78bb86f832a318d3eef86ac5e0fa6bb9df692ec40f"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Already claimed these materials.",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        }
+	]
+}

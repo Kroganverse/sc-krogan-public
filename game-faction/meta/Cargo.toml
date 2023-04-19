@@ -1,0 +1,14 @@
+[package]
+name = "game-faction-meta"
+version = "0.0.0"
+edition = "2018"
+publish = false
+authors = [ "you",]
+
+[dev-dependencies]
+
+[dependencies.game-faction]
+path = ".."
+
+[dependencies.elrond-wasm-debug]
+version = "0.37.0"

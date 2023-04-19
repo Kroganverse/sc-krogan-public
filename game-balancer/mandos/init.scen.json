@@ -1,0 +1,195 @@
+{
+    "name": "game-balancer",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "1,000,000,000"
+                    }
+                },
+                "address:krogan_treasury": {
+                    "nonce": "1",
+                    "balance": "0"
+                },
+                "address:krogan_rewards": {
+                    "nonce": "1",
+                    "balance": "0"
+                }
+            },
+            "newAddresses": [
+                {
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0x01",
+                    "newAddress": "sc:token-staking"
+                },
+                {
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0x02",
+                    "newAddress": "sc:faction#01"
+                },{
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0x03",
+                    "newAddress": "sc:faction#02"
+                },{
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0x04",
+                    "newAddress": "sc:faction#03"
+                },{
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0x05",
+                    "newAddress": "sc:balancer"
+                }
+            ]
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy-0x01",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../../token-staking/output/token-staking.wasm",
+                "arguments": [
+                    "str:KRO-123456",
+                    "str:LKKRO-123456",
+                    "15552000",
+                    "259200",
+                    "100",
+                    "1"
+                ],
+                "gasLimit": "5,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy-0x02",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../../game-faction/output/game-faction.wasm",
+                "arguments": [
+                    "sc:token-staking",
+                    "str:KRO-123456",
+                    "address:krogan_treasury",
+                    "address:krogan_rewards"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy-0x03",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../../game-faction/output/game-faction.wasm",
+                "arguments": [
+                    "sc:token-staking",
+                    "str:KRO-123456",
+                    "address:krogan_treasury",
+                    "address:krogan_rewards"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy-0x04",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../../game-faction/output/game-faction.wasm",
+                "arguments": [
+                    "sc:token-staking",
+                    "str:KRO-123456",
+                    "address:krogan_treasury",
+                    "address:krogan_rewards"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy-0x05",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../output/game-balancer.wasm",
+                "arguments": [
+                    "sc:faction#01|sc:faction#02|sc:faction#03"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:balancer": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:factions": "sc:faction#01|sc:faction#02|sc:faction#03"
+                    },
+                    "code": "file:../output/game-balancer.wasm",
+                    "owner": "address:owner"
+                },
+                "+": ""
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:faction#01": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:stakingPool": "sc:token-staking",
+                        "str:balancer": "sc:balancer",
+                        "+": ""
+                    },
+                    "code": "file:../../game-faction/output/game-faction.wasm",
+                    "owner": "address:owner"
+                },
+                "+": ""
+            }
+        }
+    ]
+}

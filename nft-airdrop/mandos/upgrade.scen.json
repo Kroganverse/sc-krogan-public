@@ -1,0 +1,62 @@
+{
+    "name": "upgrade",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "init.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:nft-airdrop": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:signer": "0x320a0f239f9a646f2f620e1c3ee838aa5f4c0de7b53a8a5c6046de77f0d03017",
+                        "str:rewardsCheckpoints|str:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz": {
+                            "0-total_nft_supply": "biguint:1000",
+                            "1-reward_token": "nested:str:EGLD",
+                            "2-reward_supply": "biguint:500,000"
+                        },
+                        "str:whitelisted|address:owner": "0x01"
+                    },
+                    "code": "file:../output/nft-airdrop.wasm"
+                },
+                "+": ""
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "check-deposit",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:nft-airdrop",
+                "function": "getRewardsCheckpoint",
+                "arguments": [
+                    "str:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [
+                    "1000",
+                    "str:EGLD",
+                    "500000",
+                    "0"
+                ],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        }
+	]
+}

@@ -1,0 +1,105 @@
+{
+    "name": "claim",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "depositmeta.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "claim",
+            "tx": {
+                "from": "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
+                "to": "sc:nft-airdrop",
+                "function": "claimRewards",
+                "arguments": [
+                    "str:dibgswq0weyziphhk62xgcgyluqwwmsj",
+					"u32:100", 
+					"0xab2191dcd65412f3183ec15fde6065088f74b4aa9d97c1cb32c44546b7c1f38a3ba6eff87e8989d9a64721ff8e2df22935b19b506ed804163b94fd63329c4509",
+					"str:astt1qn0mhm405tb5ntu5sydpjjd2zsk",
+					"u32:200", 
+					"0x8ecc80783fb5f87b7083c403a674d426e1f1c0c845f0bda8882f83cfc196b06073153c941bd295a497acfdc57db4a5432201c8b94f2105a8fa6335e2102ff601",
+                    "str:0vlSqVcU2xvekgH8NDR6neulNHdZ8j8m",
+					"u32:200", 
+					"0x9127158c350b84739bcf46c7333db8bf4f164fd7224c485090c0ed33d918ed98f9ebce8ddbd9ecf7093e329943013f72af7c9e624011d7684c04832867dada04"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "check-points",
+            "tx": {
+                "to": "sc:nft-airdrop",
+                "function": "getRewardsClaimed",
+                "arguments": [
+                    "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
+                    "str:0vlSqVcU2xvekgH8NDR6neulNHdZ8j8m"
+                ]
+            },
+            "expect": {
+                "out": [
+                    "1"
+                ],
+                "status": ""
+            }
+        },
+		{
+            "step": "checkState",
+            "accounts": {
+                "sc:nft-airdrop": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+						"str:LKKRO-123456": {
+                            "instances": [{
+                                "nonce": "1",
+                                "balance": "90,000"
+                            },{
+                                "nonce": "2",
+                                "balance": "180,000"
+                            }]
+                        },
+                        "str:KRO-123456": "180,000"
+                    },
+                    "storage": {
+                        "+": ""
+                    },
+                    "code": "file:../output/nft-airdrop.wasm"
+                },
+				"0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1": {
+					"nonce": "*",
+					"balance": "1,000,000",
+                    "esdt": {
+						"str:LKKRO-123456": {
+                            "instances": [{
+                                "nonce": "1",
+                                "balance": "10,000"
+                            },{
+                                "nonce": "2",
+                                "balance": "20,000"
+                            }]
+                        },
+                        "str:KRO-123456": "20,000"
+                    }
+				},
+                "+": ""
+            }
+        }
+	]
+}

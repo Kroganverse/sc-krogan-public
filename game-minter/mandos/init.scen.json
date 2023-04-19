@@ -1,0 +1,75 @@
+{
+    "name": "init",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "0x3dcb037a418bbc2a17390452aecf4e58b6e90a25188d36a909f18fb8a55b765f": {
+                    "nonce": "0",
+                    "balance": "1,000,000,000,000,000,000,000,000,000"
+                },
+                "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1": {
+                    "nonce": "0",
+                    "balance": "1,000,000"
+				},
+                "0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2": {
+                    "nonce": "0",
+                    "balance": "1,000,000"
+				},
+                "0xeed7275615969fcc7ca9967953533fbb7f7dfebaa579747bdffd4258f2bd4f4f": {
+                    "nonce": "0",
+                    "balance": "1,000,000",
+                    "esdt": {
+                        "str:ESDT-123456": "100,000"
+                    }
+                }
+            },
+            "newAddresses": [
+                {
+                    "creatorAddress": "0x3dcb037a418bbc2a17390452aecf4e58b6e90a25188d36a909f18fb8a55b765f",
+                    "creatorNonce": "0",
+                    "newAddress": "sc:game-minter"
+                }
+            ]
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy",
+            "tx": {
+                "from": "0x3dcb037a418bbc2a17390452aecf4e58b6e90a25188d36a909f18fb8a55b765f",
+                "contractCode": "file:../output/game-minter.wasm",
+                "arguments": [
+					"0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
+                    "str:ESDT-123456",
+                    "1000"
+				],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:game-minter": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:signer": "0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
+                        "str:platformCurrency": "str:ESDT-123456",
+                        "str:planetPrice": "1000",
+                        "+": ""
+                    },
+                    "code": "file:../output/game-minter.wasm"
+                },
+                "+": ""
+            }
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+[package]
+name = "game-minter"
+version = "1.0.0"
+authors = [ "Krogan",]
+edition = "2018"
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.multiversx-sc]
+version = "0.39.5"
+
+[dev-dependencies.multiversx-sc-scenario]
+version = "0.39.5"

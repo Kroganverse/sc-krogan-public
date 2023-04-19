@@ -1,0 +1,163 @@
+{
+    "name": "create proposals",
+    "steps": [{
+            "step": "externalSteps",
+            "path": "init.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "create-proposal-fail-1",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "propose",
+                "arguments": [
+                    "str:Add a new defending starbase at coordinates x,y,z", "str:addStarbase_defending", "str:x,y,z"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Not part of this faction!",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "register-balancer",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "registerBalancer",
+                "arguments": [
+                    "address:owner"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "register-user",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "registerUser",
+                "arguments": [
+                    "address:owner"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "create-proposal-fail-2",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "propose",
+                "arguments": [
+                    "str:Add a new defending starbase at coordinates x,y,z", "str:addStarbase_defending", "str:x,y,z"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Cannot propose without 30000 KRO active staking, currently 0 KRO",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "add-staking",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:token-staking",
+                "function": "stake",
+				"esdtValue": [{
+					"tokenIdentifier": "str:KRO-123456",
+					"value": "30,000,000,000,000,000,000,000"
+				}],
+                "arguments": [],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:token-staking": {
+                    "nonce": "0",
+                    "balance": "0",
+					"esdt": {
+						"str:KRO-123456": "30,000,000,000,000,000,000,000"
+					},
+                    "storage": {
+                        "str:userBalance|address:owner": "30,000,000,000,000,000,000,000",
+						"+": ""
+                    },
+                    "code": "file:../../token-staking/output/token-staking.wasm",
+                    "owner": "address:owner"
+                },
+                "+": ""
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "create-proposal-success",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "propose",
+                "arguments": [
+                    "str:Add a new defending starbase at coordinates x,y,z", 
+                    "str:addStarbase_defending", 
+                    "str:x,y,z"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": ["1"],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

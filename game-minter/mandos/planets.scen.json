@@ -1,0 +1,135 @@
+{
+    "name": "planets",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "init.scen.json"
+        },
+        {
+            "step": "setState",
+            "accounts": {
+                "sc:game-minter": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:PLANET-123456": {
+                            "instances": [{
+                                "nonce": "1",
+                                "balance": "1"
+                            },{
+                                "nonce": "2",
+                                "balance": "1"
+                            }]
+                        }
+                    },
+                    "storage": {
+                        "str:signer": "0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
+                        "str:platformCurrency": "str:ESDT-123456",
+                        "str:planetPrice": "1000"
+                    },
+                    "code": "file:../output/game-minter.wasm",
+					"owner": "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1"
+                }
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "set-token-id",
+            "tx": {
+                "from": "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
+                "to": "sc:game-minter",
+                "function": "changePlanetTokenId",
+                "value": "0",
+                "arguments": [
+                    "str:PLANET-123456"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "claim-planet",
+            "tx": {
+                "from": "0xeed7275615969fcc7ca9967953533fbb7f7dfebaa579747bdffd4258f2bd4f4f",
+                "to": "sc:game-minter",
+                "function": "claimPlanet",
+                "value": "0",
+                "esdt": [{
+                    "tokenIdentifier": "str:ESDT-123456",
+                    "nonce": "0",
+                    "value": "1000"
+                }],
+                "arguments": [
+					"1",
+                    "str:PLANET-123456",
+					"1",
+					"0xdb64f50eae9f2ca220d840c9a7e7807483690567f8161692a6ac226a962eec10acb9ece9c49bfe385db388d52be48b672cb04b401e79c135bff81258dd09e70b"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "claim-planet",
+            "tx": {
+                "from": "0xeed7275615969fcc7ca9967953533fbb7f7dfebaa579747bdffd4258f2bd4f4f",
+                "to": "sc:game-minter",
+                "function": "claimPlanet",
+                "value": "0",
+                "arguments": [
+					"1",
+                    "str:PLANET-123456",
+					"1",
+					"0xdb64f50eae9f2ca220d840c9a7e7807483690567f8161692a6ac226a962eec10acb9ece9c49bfe385db388d52be48b672cb04b401e79c135bff81258dd09e70b"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Planet already claimed.",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "0xeed7275615969fcc7ca9967953533fbb7f7dfebaa579747bdffd4258f2bd4f4f": {
+                    "nonce": "*",
+                    "balance": "*",
+                    "esdt": {
+						"str:PLANET-123456": {
+							"instances": [{
+                                "nonce": "1",
+                                "balance": "1"
+                            }]
+						},
+                        "str:ESDT-123456": "99000"
+					}
+                },
+                "+": ""
+            }
+        }
+	]
+}

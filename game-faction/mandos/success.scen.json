@@ -1,0 +1,177 @@
+{
+    "name": "vote",
+    "steps": [{
+            "step": "externalSteps",
+            "path": "vote.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p1",
+            "tx": {
+                "from": "address:participant1",
+                "to": "sc:faction",
+                "function": "vote",
+                "arguments": [
+					"1", "1"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p2",
+            "tx": {
+                "from": "address:participant2",
+                "to": "sc:faction",
+                "function": "vote",
+                "arguments": [
+					"1", "2"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p3",
+            "tx": {
+                "from": "address:participant3",
+                "to": "sc:faction",
+                "function": "vote",
+                "arguments": [
+					"1", "1"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:faction": {
+                    "nonce": "0",
+                    "balance": "0",
+					"esdt": {
+						"str:KRO-123456": "25000"
+					},
+                    "storage": {
+						"str:daoItem|u32:1": "u32:1|address:owner|u64:359200|nested:str:Add a new defending starbase at coordinates x,y,z|nested:str:addStarbase_defending|nested:str:x,y,z|biguint:110000000000000000000000|biguint:15000000000000000000000|biguint:5000000000000000000000|u32:5|u8:0",
+						"+": ""
+                    },
+                    "code": "file:../output/game-faction.wasm",
+                    "owner": "address:owner"
+                },
+                "+": ""
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p3",
+            "tx": {
+                "from": "address:participant3",
+                "to": "sc:faction",
+                "function": "concludeProposal",
+                "arguments": [
+					"1"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Proposal is active for 3 days.",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "359,201"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p3",
+            "tx": {
+                "from": "address:participant3",
+                "to": "sc:faction",
+                "function": "concludeProposal",
+                "arguments": [
+					"1"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+				"address:krogan_treasury": {
+                    "nonce": "1",
+                    "balance": "0",
+					"esdt": {
+						"str:KRO-123456": "5000"
+					}
+                },
+                "address:krogan_rewards": {
+                    "nonce": "1",
+                    "balance": "0",
+					"esdt": {
+						"str:KRO-123456": "5000"
+					}
+                },
+                "sc:faction": {
+                    "nonce": "0",
+                    "balance": "0",
+					"esdt": {
+						"str:KRO-123456": "15000"
+					},
+                    "storage": {
+						"str:daoItem|u32:1": "u32:1|address:owner|u64:359200|nested:str:Add a new defending starbase at coordinates x,y,z|nested:str:addStarbase_defending|nested:str:x,y,z|biguint:110000000000000000000000|biguint:15000000000000000000000|biguint:5000000000000000000000|u32:5|u8:2",
+						"+": ""
+                    },
+                    "code": "file:../output/game-faction.wasm",
+                    "owner": "address:owner"
+                },
+                "+": ""
+            }
+        }
+    ]
+}

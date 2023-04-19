@@ -1,0 +1,100 @@
+{
+    "name": "vote",
+    "steps": [{
+            "step": "externalSteps",
+            "path": "prequisite.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p5",
+            "tx": {
+                "from": "address:participant5",
+                "to": "sc:faction",
+                "function": "vote",
+                "arguments": [
+					"1", "0"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Cannot vote without active KRO staking",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "add-staking",
+            "tx": {
+                "from": "address:participant5",
+                "to": "sc:token-staking",
+                "function": "stake",
+				"esdtValue": [{
+					"tokenIdentifier": "str:KRO-123456",
+					"value": "5,000,000,000,000,000,000,000"
+				}],
+                "arguments": [],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p5",
+            "tx": {
+                "from": "address:participant5",
+                "to": "sc:faction",
+                "function": "vote",
+                "arguments": [
+					"1", "0"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "vote-p5",
+            "tx": {
+                "from": "address:participant5",
+                "to": "sc:faction",
+                "function": "vote",
+                "arguments": [
+					"1", "0"
+				],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Already voted.",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

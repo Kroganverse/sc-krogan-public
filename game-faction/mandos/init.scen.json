@@ -1,0 +1,158 @@
+{
+    "name": "game-faction",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "30,000,000,000,000,000,000,000"
+                    }
+                },
+                "address:participant1": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "35,000,000,000,000,000,000,000"
+                    }
+                },
+                "address:participant2": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "15,000,000,000,000,000,000,000"
+                    }
+                },
+                "address:participant3": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "45,000,000,000,000,000,000,000"
+                    }
+                },
+                "address:participant4": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "100,000,000,000,000,000,000,000"
+                    }
+                },
+                "address:participant5": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "5,000,000,000,000,000,000,000"
+                    }
+                },
+                "address:krogan_treasury": {
+                    "nonce": "1",
+                    "balance": "0"
+                },
+                "address:krogan_rewards": {
+                    "nonce": "1",
+                    "balance": "0"
+                }
+            },
+            "newAddresses": [
+                {
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0x01",
+                    "newAddress": "sc:token-staking"
+                },{
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "0x02",
+                    "newAddress": "sc:faction"
+                }
+            ]
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy-0x01",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../../token-staking/output/token-staking.wasm",
+                "arguments": [
+                    "str:KRO-123456",
+                    "str:LKKRO-123456",
+                    "15552000",
+                    "259200",
+                    "100",
+                    "1"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scDeploy",
+            "txId": "deploy",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../output/game-faction.wasm",
+                "arguments": [
+                    "sc:token-staking",
+                    "str:KRO-123456",
+                    "address:krogan_treasury",
+                    "address:krogan_rewards"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:faction": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:stakingPool": "sc:token-staking",
+                        "str:platformCurrency": "str:KRO-123456",
+                        "str:krogan": "address:krogan_treasury",
+                        "str:rewardsPool": "address:krogan_rewards"
+                    },
+                    "code": "file:../output/game-faction.wasm",
+                    "owner": "address:owner"
+                },
+                "+": ""
+            }
+        },
+        {
+            "step": "setState",
+            "accounts": {
+                "sc:faction": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:KRO-123456": "25,000"
+                    },
+                    "storage": {
+                        "str:stakingPool": "sc:token-staking",
+                        "str:platformCurrency": "str:KRO-123456",
+                        "str:krogan": "address:krogan_treasury",
+                        "str:rewardsPool": "address:krogan_rewards",
+                        "str:proposalTypeCost|nested:str:addStarbase_defending": "10,000"
+                    },
+                    "code": "file:../output/game-faction.wasm",
+                    "owner": "address:owner"
+                }
+            }
+        }
+    ]
+}

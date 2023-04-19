@@ -1,0 +1,211 @@
+{
+    "name": "prepare users",
+    "steps": [{
+            "step": "externalSteps",
+            "path": "proposals.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "register-user",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "registerUser",
+                "arguments": [
+                    "address:participant1"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "register-user",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "registerUser",
+                "arguments": [
+                    "address:participant2"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "register-user",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "registerUser",
+                "arguments": [
+                    "address:participant3"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "register-user",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "registerUser",
+                "arguments": [
+                    "address:participant4"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "register-user",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:faction",
+                "function": "registerUser",
+                "arguments": [
+                    "address:participant5"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "add-staking",
+            "tx": {
+                "from": "address:participant1",
+                "to": "sc:token-staking",
+                "function": "stake",
+				"esdtValue": [{
+					"tokenIdentifier": "str:KRO-123456",
+					"value": "35,000,000,000,000,000,000,000"
+				}],
+                "arguments": [],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "add-staking",
+            "tx": {
+                "from": "address:participant2",
+                "to": "sc:token-staking",
+                "function": "stake",
+				"esdtValue": [{
+					"tokenIdentifier": "str:KRO-123456",
+					"value": "15,000,000,000,000,000,000,000"
+				}],
+                "arguments": [],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "add-staking",
+            "tx": {
+                "from": "address:participant3",
+                "to": "sc:token-staking",
+                "function": "stake",
+				"esdtValue": [{
+					"tokenIdentifier": "str:KRO-123456",
+					"value": "45,000,000,000,000,000,000,000"
+				}],
+                "arguments": [],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "add-staking",
+            "tx": {
+                "from": "address:participant4",
+                "to": "sc:token-staking",
+                "function": "stake",
+				"esdtValue": [{
+					"tokenIdentifier": "str:KRO-123456",
+					"value": "100,000,000,000,000,000,000,000"
+				}],
+                "arguments": [],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

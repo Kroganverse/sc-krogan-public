@@ -1,0 +1,21 @@
+[package]
+name = "game-balancer"
+version = "0.0.0"
+authors = [ "you",]
+edition = "2018"
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.game-faction]
+path = "../game-faction"
+
+[dev-dependencies]
+num-bigint = "0.4.2"
+
+[dependencies.elrond-wasm]
+version = "0.37.0"
+
+[dev-dependencies.elrond-wasm-debug]
+version = "0.37.0"

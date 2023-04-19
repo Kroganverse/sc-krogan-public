@@ -1,0 +1,119 @@
+{
+    "name": "claim",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "deposit.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "100,000"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "invalid-remove-1",
+            "tx": {
+                "from": "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
+                "to": "sc:nft-airdrop",
+                "function": "removeRewardsCheckpoint",
+                "arguments": [
+                    "str:dibgswq0weyziphhk62xgcgyluqwwmsj",
+					"u32:800", 
+					"0xa9e55fe938d34fe8840318a7122fbbb44d0c3debd1d15ba1466491a740b487e9e7068995ae0d1007678beae02d2c52110f4d8f1020d867bd943c4009e787c801"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Not allowed to remove rewards from this project",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "invalid-remove-2",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:nft-airdrop",
+                "function": "removeRewardsCheckpoint",
+                "arguments": [
+                    "str:dibgswq0weyziphhk62xgcgyluqwwmsj",
+					"u32:800", 
+					"0xa9e55fe938d34fe8840318a7122fbbb44d0c3debd1d15ba1466491a740b487e9e7068995ae0d1007678beae02d2c52110f4d8f1020d867bd943c4009e787c801"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "10",
+                "message": "str:invalid signature",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "invalid-remove",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:nft-airdrop",
+                "function": "removeRewardsCheckpoint",
+                "arguments": [
+                    "str:dibgswq0weyziphhk62xgcgyluqwwmsj",
+					"u32:900", 
+					"0xa9e55fe938d34fe8840318a7122fbbb44d0c3debd1d15ba1466491a740b487e9e7068995ae0d1007678beae02d2c52110f4d8f1020d867bd943c4009e787c801"
+                ],
+                "gasLimit": "20,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*",
+				"logs": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "sc:nft-airdrop": {
+                    "nonce": "0",
+                    "balance": "50,000",
+                    "esdt": {
+						"str:KRO-123456": "100,000"
+                    },
+                    "storage": {
+                        "str:signer": "0x320a0f239f9a646f2f620e1c3ee838aa5f4c0de7b53a8a5c6046de77f0d03017",
+                        "str:rewardsCheckpoints|str:dibgswq0weyziphhk62xgcgyluqwwmsj": "",
+                        "str:rewardsCheckpoints|str:astt1qn0mhm405tb5ntu5sydpjjd2zsk": {
+                            "0-total_nft_supply": "biguint:2000",
+                            "1-reward_token": "nested:str:KRO-123456",
+                            "2-reward_supply": "biguint:100,000",
+                            "3-reward_nonce": "u64:0"
+                        },
+                        "str:rewardsCheckpoints|str:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz": {
+                            "0-total_nft_supply": "biguint:1000",
+                            "1-reward_token": "nested:str:EGLD",
+                            "2-reward_supply": "biguint:500,000"
+                        },
+                        "str:whitelisted|address:owner": "0x01",
+                        "str:rewardsOwner|str:astt1qn0mhm405tb5ntu5sydpjjd2zsk": "address:owner",
+                        "str:rewardsOwner|str:dibgswq0weyziphhk62xgcgyluqwwmsj": ""
+                    },
+                    "code": "file:../output/nft-airdrop.wasm"
+                },
+                "+": ""
+            }
+        }
+	]
+}
