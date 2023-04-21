@@ -29,6 +29,7 @@ pub trait FactionContract: storage::StorageModule {
         self.minimum_stake().set_if_empty(minimum_stake);
     }
 
+    // This endpoint is called by the balancer itself on deploy
     #[endpoint(registerBalancer)]
     fn register_balancer(&self, address: ManagedAddress) {
         self.balancer().set_if_empty(address); // can set only once

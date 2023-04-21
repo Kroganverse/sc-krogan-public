@@ -1,0 +1,9 @@
+{
+    "*": {
+        "address-mainnet-1": "erd1qqqqqqqqqqqqqpgq5deqkwrz4fljwy966f56pnnsvf0m8p3zwe0s7e44ta",
+        "address-mainnet-2": "erd1qqqqqqqqqqqqqpgq5p744fjz0w8wd67e0a7qxvw52tr5zy5fwe0snexukf",
+        "address-mainnet-3": "erd1qqqqqqqqqqqqqpgqffx3zt34ev84j0pshsxxuphlvlrg6xc9we0snsq6yj",
+        "deployTransaction-mainnet": "6423d662e074341c63004c05cec4a64ea18d0a69f02ae4484a4877c8cd4428f6",
+        "address-mainnet": "erd1qqqqqqqqqqqqqpgqffx3zt34ev84j0pshsxxuphlvlrg6xc9we0snsq6yj"
+    }
+}

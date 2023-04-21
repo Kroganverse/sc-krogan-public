@@ -20,11 +20,15 @@ pub trait GameMinter:
         &self, 
         signer: ManagedAddress, 
         platform_currency: TokenIdentifier, 
-        planet_price: BigUint
+        planet_price: BigUint,
+        krogan: ManagedAddress, 
+        rewards_pool: ManagedAddress, 
     ) {
         self.signer().set_if_empty(&signer);
         self.platform_currency().set_if_empty(platform_currency);
         self.planet_price().set_if_empty(planet_price);
+        self.krogan().set_if_empty(krogan);
+        self.rewards_pool().set_if_empty(rewards_pool);
     }
 
     #[only_owner]
@@ -89,8 +93,23 @@ pub trait GameMinter:
 
         self.planet_claimed(&self.planet_token_id().get(), &nonce).set(true);
 
+        self.split_game_revenue_and_send(&payment.amount);
+
         self.verify_signature(&nonce, &caller, &token_id.as_managed_buffer(), &amount, &signature);
         self.send().direct(&caller, &EgldOrEsdtTokenIdentifier::esdt(token_id), nonce.into(), &amount);
+    }
+
+    #[only_owner]
+    #[endpoint(withdrawProfits)]
+    fn withdraw_profits(
+        &self, 
+        opt_payment_token: OptionalValue<EgldOrEsdtTokenIdentifier>
+    ) {
+        let payment_token = opt_payment_token
+            .into_option()
+            .unwrap_or_else(|| EgldOrEsdtTokenIdentifier::egld());
+        let amount = self.blockchain().get_sc_balance(&&payment_token, 0);
+        self.send().direct(&self.blockchain().get_owner_address(), &payment_token, 0, &amount);
     }
 
 }

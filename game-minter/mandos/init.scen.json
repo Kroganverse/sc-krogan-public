@@ -41,7 +41,9 @@
                 "arguments": [
 					"0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
                     "str:ESDT-123456",
-                    "1000"
+                    "1000",
+                    "0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
+                    "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1"
 				],
                 "gasLimit": "20,000,000",
                 "gasPrice": "0"
@@ -64,6 +66,8 @@
                         "str:signer": "0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
                         "str:platformCurrency": "str:ESDT-123456",
                         "str:planetPrice": "1000",
+                        "str:krogan": "0xfc855dacf6daa229fb32303171106f5bd6b7425fa8449931f600b5bf631929a2",
+                        "str:rewardsPool": "0x0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1",
                         "+": ""
                     },
                     "code": "file:../output/game-minter.wasm"

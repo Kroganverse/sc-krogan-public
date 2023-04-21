@@ -99,4 +99,12 @@ pub trait TokensModule: crate::storage::StorageModule {
 		self.send().direct(&address, &EgldOrEsdtTokenIdentifier::esdt(token_id), 0, &amount);
 	}
 
+    /**
+     * All transactions between companies/players and the game
+     */
+    fn split_game_revenue_and_send(&self, amount: &BigUint) {
+        self.send().direct_esdt(&self.krogan().get(), &self.platform_currency().get(), 0, &(amount / 2u32));
+        self.send().direct_esdt(&self.rewards_pool().get(), &self.platform_currency().get(), 0, &(amount / 2u32));
+    }
+
 }
