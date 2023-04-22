@@ -24,6 +24,7 @@ pub trait GameMinter:
         krogan: ManagedAddress, 
         rewards_pool: ManagedAddress, 
     ) {
+        self.minting_live().set(false);
         self.signer().set_if_empty(&signer);
         self.platform_currency().set_if_empty(platform_currency);
         self.planet_price().set_if_empty(planet_price);
@@ -81,6 +82,7 @@ pub trait GameMinter:
         amount: BigUint<Self::Api>, 
         signature: Signature<Self::Api>
     ) {
+        require!(self.minting_live().get(), "Minting planets is paused. Check back later.");
         let caller = self.blockchain().get_caller();
         require!(self.planet_claimed(&self.planet_token_id().get(), &nonce).get() == false, "Planet already claimed.");
         require!(token_id == self.planet_token_id().get(), "Invalid data.");

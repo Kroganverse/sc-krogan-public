@@ -38,7 +38,19 @@ pub trait StorageModule {
     fn reset_planet_claim(&self, nonce: u32) {
         self.planet_claimed(&self.planet_token_id().get(), &nonce).clear();
     }
+
+	#[only_owner]
+	#[endpoint(changeMinting)]
+	fn change_minting(&self, minting: bool) {
+		self.minting_live().set(&minting);
+	}
     
+    // Storage
+
+
+	#[storage_mapper("mintingLive")]
+	fn minting_live(&self) -> SingleValueMapper<bool>;
+
 	#[storage_mapper("signer")]
     fn signer(&self) -> SingleValueMapper<ManagedAddress>;
 

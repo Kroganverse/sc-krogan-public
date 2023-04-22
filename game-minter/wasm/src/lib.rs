@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////
 
 // Init:                                 1
-// Endpoints:                           15
+// Endpoints:                           16
 // Async Callback:                       1
-// Total number of exported functions:  17
+// Total number of exported functions:  18
 
 #![no_std]
 #![feature(alloc_error_handler, lang_items)]
@@ -29,6 +29,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         changePlanetTokenId
         getPlanetClaimed
         resetPlanetClaim
+        changeMinting
         getTokensClaimed
         getMaterialTokenId
         getPlanetPrice
