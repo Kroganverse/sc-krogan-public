@@ -171,16 +171,12 @@ pub trait FactionContract: storage::StorageModule {
         let down_votes = BigUint::from(10000u32) * dao_item.clone().down_votes / total_vote_power;
 
         if up_votes > down_votes {
-            if dao_item.votes >= 5 {
-                let cost = self.proposal_type_cost(&dao_item.proposal_type).get();
-                if cost > BigUint::zero() {
-                    require!(balance >= cost.clone(), "The faction does not have the funds for this action.");
-                    self.split_game_revenue_and_send(&cost);
-                }
-                dao_item.status = ProposalStatus::Succeeded;
-            } else {
-                dao_item.status = ProposalStatus::Failed;
+            let cost = self.proposal_type_cost(&dao_item.proposal_type).get();
+            if cost > BigUint::zero() {
+                require!(balance >= cost.clone(), "The faction does not have the funds for this action.");
+                self.split_game_revenue_and_send(&cost);
             }
+            dao_item.status = ProposalStatus::Succeeded;
         } else {
             dao_item.status = ProposalStatus::Failed;
         }
